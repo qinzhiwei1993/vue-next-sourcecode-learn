@@ -746,6 +746,7 @@ export function registerRuntimeCompiler(_compile: any) {
 // dev only
 export const isRuntimeOnly = () => !compile
 
+// 完成组件的setUp
 export function finishComponentSetup(
   instance: ComponentInternalInstance,
   isSSR: boolean,

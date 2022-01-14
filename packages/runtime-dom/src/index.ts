@@ -31,6 +31,23 @@ declare module '@vue/reactivity' {
   }
 }
 
+// 节点操作相关API
+// {
+//   cloneNode: ƒ cloneNode(el)
+//   createComment: text => doc.createComment(text)
+//   createElement: (tag, isSVG, is, props) => {…}
+//   createText: text => doc.createTextNode(text)
+//   insert: (child, parent, anchor) => {…}
+//   insertStaticContent: ƒ insertStaticContent(content, parent, anchor, isSVG)
+//   nextSibling: node => node.nextSibling
+//   parentNode: node => node.parentNode
+//   patchProp: (el, key, prevValue, nextValue, isSVG = false, prevChildren, parentComponent, parentSuspense, unmountChildren) => {…}
+//   querySelector: selector => doc.querySelector(selector)
+//   remove: child => {…}
+//   setElementText: (el, text) => { el.textContent = text; }
+//   setScopeId: ƒ setScopeId(el, id)
+//   setText: (node, text) => { node.nodeValue = text; }
+// }
 const rendererOptions = extend({ patchProp }, nodeOps)
 
 // lazy create the renderer - this makes core renderer logic tree-shakable
@@ -40,6 +57,7 @@ let renderer: Renderer<Element | ShadowRoot> | HydrationRenderer
 let enabledHydration = false
 
 function ensureRenderer() {
+  console.log('=========== ensureRenderer:rendererOptions ===========', rendererOptions)
   return (
     renderer ||
     (renderer = createRenderer<Node, Element | ShadowRoot>(rendererOptions))
@@ -63,6 +81,8 @@ export const hydrate = ((...args) => {
   ensureHydrationRenderer().hydrate(...args)
 }) as RootHydrateFunction
 
+
+// 构建app的入口 
 export const createApp = ((...args) => {
   const app = ensureRenderer().createApp(...args)
 
@@ -75,7 +95,7 @@ export const createApp = ((...args) => {
   app.mount = (containerOrSelector: Element | ShadowRoot | string): any => {
     const container = normalizeContainer(containerOrSelector)
     if (!container) return
-
+    console.log('=============app==========', app)
     const component = app._component
     if (!isFunction(component) && !component.render && !component.template) {
       // __UNSAFE__

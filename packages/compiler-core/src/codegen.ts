@@ -193,6 +193,7 @@ export function generate(
     onContextCreated?: (context: CodegenContext) => void
   } = {}
 ): CodegenResult {
+  console.log('=========== ast:RootNode =============', ast)
   const context = createCodegenContext(ast, options)
   if (options.onContextCreated) options.onContextCreated(context)
   const {
@@ -304,7 +305,7 @@ export function generate(
 
   deindent()
   push(`}`)
-
+  console.log('=========== code render函数 ==========', context.code)
   return {
     ast,
     code: context.code,

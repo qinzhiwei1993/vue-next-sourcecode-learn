@@ -63,6 +63,7 @@ function getTargetType(value: Target) {
 export type UnwrapNestedRefs<T> = T extends Ref ? T : UnwrapRefSimple<T>
 
 /**
+ * 创建原始对象的响应式副本
  * Creates a reactive copy of the original object.
  *
  * The reactive conversion is "deep"—it affects all nested properties. In the
@@ -85,8 +86,11 @@ export type UnwrapNestedRefs<T> = T extends Ref ? T : UnwrapRefSimple<T>
  * ```
  */
 export function reactive<T extends object>(target: T): UnwrapNestedRefs<T>
+
+// 数据代理的入口
 export function reactive(target: object) {
   // if trying to observe a readonly proxy, return the readonly version.
+  // 如果尝试观察一个只读代理，那么返回只读版本
   if (target && (target as Target)[ReactiveFlags.IS_READONLY]) {
     return target
   }
@@ -107,6 +111,7 @@ export type ShallowReactive<T> = T & { [ShallowReactiveMarker]?: true }
  * Return a shallowly-reactive copy of the original object, where only the root
  * level properties are reactive. It also does not auto-unwrap refs (even at the
  * root level).
+ * 
  */
 export function shallowReactive<T extends object>(
   target: T
@@ -178,6 +183,7 @@ export function shallowReadonly<T extends object>(
   )
 }
 
+// 创建响应式对象
 function createReactiveObject(
   target: Target,
   isReadonly: boolean,

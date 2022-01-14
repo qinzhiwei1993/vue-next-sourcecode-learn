@@ -174,6 +174,7 @@ export type CreateAppFunction<HostElement> = (
 
 let uid = 0
 
+// 输出创建APP的API
 export function createAppAPI<HostElement>(
   render: RootRenderFunction,
   hydrate?: RootHydrateFunction
@@ -184,7 +185,9 @@ export function createAppAPI<HostElement>(
       rootProps = null
     }
 
+    // 创建上下文
     const context = createAppContext()
+    // 已安装插件，这里使用Set，去重
     const installedPlugins = new Set()
 
     let isMounted = false
@@ -210,7 +213,7 @@ export function createAppAPI<HostElement>(
           )
         }
       },
-
+      // 安装插件
       use(plugin: Plugin, ...options: any[]) {
         if (installedPlugins.has(plugin)) {
           __DEV__ && warn(`Plugin has already been applied to target app.`)
@@ -229,6 +232,7 @@ export function createAppAPI<HostElement>(
         return app
       },
 
+      // 兼容options api的混入
       mixin(mixin: ComponentOptions) {
         if (__FEATURE_OPTIONS_API__) {
           if (!context.mixins.includes(mixin)) {
@@ -245,6 +249,7 @@ export function createAppAPI<HostElement>(
         return app
       },
 
+      // 注册组件
       component(name: string, component?: Component): any {
         if (__DEV__) {
           validateComponentName(name, context.config)
@@ -259,6 +264,7 @@ export function createAppAPI<HostElement>(
         return app
       },
 
+      // 注册指令
       directive(name: string, directive?: Directive) {
         if (__DEV__) {
           validateDirectiveName(name)
@@ -274,6 +280,7 @@ export function createAppAPI<HostElement>(
         return app
       },
 
+      // 渲染
       mount(
         rootContainer: HostElement,
         isHydrate?: boolean,
@@ -334,6 +341,7 @@ export function createAppAPI<HostElement>(
         }
       },
 
+      // 注入
       provide(key, value) {
         if (__DEV__ && (key as string | symbol) in context.provides) {
           warn(
@@ -349,6 +357,7 @@ export function createAppAPI<HostElement>(
       }
     })
 
+    // 安装支持vue2的兼容属性
     if (__COMPAT__) {
       installAppCompatProperties(app, context, render)
     }

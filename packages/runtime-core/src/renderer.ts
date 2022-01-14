@@ -273,6 +273,7 @@ export const queuePostRenderEffect = __FEATURE_SUSPENSE__
   : queuePostFlushCb
 
 /**
+ * 生成渲染器函数接受两个参数，宿主节点和宿主元素
  * The createRenderer function accepts two generic arguments:
  * HostNode and HostElement, corresponding to Node and Element types in the
  * host environment. For example, for runtime-dom, HostNode would be the DOM
@@ -315,7 +316,7 @@ function baseCreateRenderer(
   createHydrationFns: typeof createHydrationFunctions
 ): HydrationRenderer
 
-// implementation
+// implementation baseCreateRenderer实现
 function baseCreateRenderer(
   options: RendererOptions,
   createHydrationFns?: typeof createHydrationFunctions
@@ -363,6 +364,8 @@ function baseCreateRenderer(
     if (n1 === n2) {
       return
     }
+
+    console.log('==========patch n1 n2 container===========', n1, n2, container)
 
     // patching & not same type, unmount old tree
     if (n1 && !isSameVNodeType(n1, n2)) {
@@ -2302,6 +2305,7 @@ function baseCreateRenderer(
         unmount(container._vnode, null, null, true)
       }
     } else {
+      console.log('==========vnode=============', vnode)
       patch(container._vnode || null, vnode, container, null, null, null, isSVG)
     }
     flushPostFlushCbs()

@@ -108,7 +108,7 @@ export function baseCompile(
       )
     })
   )
-
+    
   return generate(
     ast,
     extend({}, options, {
