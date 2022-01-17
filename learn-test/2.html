@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue3 响应式核心编写</title>
+</head>
+
+<body>
+    <div id="content"></div>
+    <button id="click">click</button>
+    <script src='./reactivity.js'></script>
+    <script>
+        const content = document.getElementById('content')
+        const click = document.getElementById('click')
+
+
+
+        let count = reactive({ num: 1 })
+
+        let double = computed(() => {
+            return count.num * 2
+        })
+
+        click.addEventListener('click', () => {
+            count.num += 1
+        })
+
+        effect(() => {
+            content.innerHTML = `展示内容count: ${count.num}, double: ${double.value}`
+        })
+    </script>
+</body>
+
+</html>
